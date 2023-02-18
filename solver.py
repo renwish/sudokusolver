@@ -1,3 +1,5 @@
+import random
+
 board = [[0 for i in range(9)] for j in range(9)]
 
 def boardinput():
@@ -76,9 +78,60 @@ def find_empty(bo):
 
     return None
 
-boardinput()
+def generateRandomBoard(bo):
+    find = find_empty(bo)
+    if find is None:  # if find != False
+        return True
+    else:
+        row, col = find
+    for number in range(1, 10):
+        num = random.randint(1, 9)
+        if valid(bo, num, (row, col)):
+            board[row][col] = num
+            if generateRandomBoard(board):
+                return True
+
+            board[row][col] = 0
+    return False
+
+
+def removeCells(board,num):
+    while num:
+        row = random.randint(0, 8)
+        col = random.randint(0, 8)
+        if board[row][col] != 0:
+            board[row][col] = 0
+            num = num - 1
+
+
+def sudokuMake(board, level):
+
+    generateRandomBoard(board)
+    if level == 1:
+        removeCells(board,30)
+    if level == 2:
+        removeCells(board,40)
+    if level == 3:
+        removeCells(board,55)
+
+choice = input("generate a puzzle or input your own? (1/2) ")
+if choice == '1':
+    print("generating...")
+    level = input("Select a difficulty level from 1-3, with 3 being the hardest. ")
+
+    while level not in ['1', '2', '3']:
+        print('\nERROR! please select a number from 1-3\n')
+        level = input("Select a difficulty level from 1-3, with 3 being the hardest. ")
+    
+    sudokuMake(board, level)
+
+else:
+    print("inputting puzzle")
+    boardinput()
+
 print("here's the board :)")
 print_board(board)
 solve(board)
+print("solving....")
 print("___________________")
 print_board(board)
