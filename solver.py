@@ -96,12 +96,12 @@ def generateRandomBoard(bo):
 
 
 def removeCells(board,num):
-    while num:
+    while num != 0:
         row = random.randint(0, 8)
         col = random.randint(0, 8)
         if board[row][col] != 0:
             board[row][col] = 0
-            num = num - 1
+        num = num - 1
 
 
 def sudokuMake(board, level):
@@ -115,23 +115,35 @@ def sudokuMake(board, level):
         removeCells(board,55)
 
 choice = input("generate a puzzle or input your own? (1/2) ")
+
 if choice == '1':
-    print("generating...")
+    print("\ngenerating...\n")
     level = input("Select a difficulty level from 1-3, with 3 being the hardest. ")
 
     while level not in ['1', '2', '3']:
         print('\nERROR! please select a number from 1-3\n')
         level = input("Select a difficulty level from 1-3, with 3 being the hardest. ")
     
+    level = int(level)
     sudokuMake(board, level)
+    print('puzzle generated! consider 0s as empty spaces\n')
+    print_board(board)
 
 else:
     print("inputting puzzle")
     boardinput()
+    print("here's the board :)\n")
+    print_board(board)
 
-print("here's the board :)")
-print_board(board)
-solve(board)
-print("solving....")
-print("___________________")
-print_board(board)
+solu = input('\nDo you want the solution for this sudoku puzzle? Y/n\n')
+solu = solu.lower()
+
+if solu == 'y':
+    solve(board)
+    print("solving....")
+    print("___________________")
+    print_board(board)
+    print('ta-da!')
+
+else:
+    print('thank you for using my program :) \ngood luck on your puzzle!')
