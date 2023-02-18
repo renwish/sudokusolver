@@ -1,5 +1,15 @@
 board = [[0 for i in range(9)] for j in range(9)]
 
+def boardinput():
+    for row in range(9):
+        for col in range(9):
+            value = input("Enter value for cell ({},{}): ".format(row, col))
+            if value.isdigit() and int(value) in range(0, 10):
+                board[row][col] = int(value)
+            else:
+                print("Invalid input. Please enter a number from 1 to 9, 0 if blank.")
+                value = input("Enter value for cell ({},{}): ".format(row, col))
+                board[row][col] = int(value)
 
 def solve(bo):
     find = find_empty(bo)
@@ -66,6 +76,8 @@ def find_empty(bo):
 
     return None
 
+boardinput()
+print("here's the board :)")
 print_board(board)
 solve(board)
 print("___________________")
